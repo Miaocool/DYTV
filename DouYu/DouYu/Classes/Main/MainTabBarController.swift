@@ -17,7 +17,7 @@ class MainTabBarController: UITabBarController {
         addChildVC(vcString: "Seeding")
         addChildVC(vcString: "Follow")
         addChildVC(vcString: "Profile")
-   
+        
     }
     
 }

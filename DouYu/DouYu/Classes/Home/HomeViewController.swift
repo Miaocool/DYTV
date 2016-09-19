@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     fileprivate lazy var titleView: TitleView = {
         let tvFrame = CGRect(x: 0, y: kStatusBarH+kNavigationBarH, width: kScreenW, height: kTitleViewH)
         let tv = TitleView(frame: tvFrame, titles: ["推荐", "游戏", "娱乐", "趣玩"])
+        tv.delegate = self
         return tv
     }()
     fileprivate lazy var pageContentView: PageContentView = {[weak self] in
@@ -29,6 +30,7 @@ class HomeViewController: UIViewController {
         }
         
         let contentView = PageContentView(frame: contentFrame, childVcs: childVcs, parentViewController: self)
+        contentView.delegate = self
         return contentView
         
     }()
@@ -70,5 +72,18 @@ extension HomeViewController {
         let qrcodeItem = UIBarButtonItem(image: #imageLiteral(resourceName: "Image_scan"), highImage: #imageLiteral(resourceName: "Image_scan_click"), size: size)
         navigationItem.rightBarButtonItems = [historyItem, searchItem, qrcodeItem]
     }
-    
 }
+//MARK: - TitleViewDelegate
+extension HomeViewController: TitleViewDelegate{
+    
+    func titleView(titleView: TitleView, selectIndex: Int) {
+        pageContentView.setCurrentIndex(currentIndex: selectIndex)
+    }
+}
+//MARK: - PageContentView
+extension HomeViewController: PageContentViewDelegate{
+    func pageContentView(contentView: PageContentView, progress: CGFloat, sourceIndex: Int, targetIndex: Int) {
+        titleView.setTitleViewWithProgress(progress: progress, sourceIndex: sourceIndex, targetIndex: targetIndex)
+    }
+}
+
